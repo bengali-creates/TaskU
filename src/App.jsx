@@ -3,7 +3,7 @@ import Navbar from './components/Navbar'
 import { v4 as uuidv4 } from 'uuid';
 import './index.css'
 import "./App.css"
-
+import { ToastContainer, toast,Bounce } from 'react-toastify';
 
 
 function App () {
@@ -23,9 +23,9 @@ function App () {
         const savedTodos = JSON.parse(todoString);
         if (Array.isArray(savedTodos)) {
           setTodos(savedTodos);
-          console.log("Loaded from localStorage:", savedTodos);
+          console.log("Loaded from localStorage:");
         } else {
-          console.warn("Invalid todos data in localStorage:", savedTodos);
+          console.warn("Invalid todos data in localStorage:");
         }
       }
     } catch (error) {
@@ -39,12 +39,12 @@ function App () {
       return
     }
     localStorage.setItem("todos", JSON.stringify(todos));
-    console.log("Saved to localStorage:", todos);
+    console.log("Saved to localStorage:");
 
   }, [todos]);
 
   useEffect(() => {
-  console.log("Updated todos:", todos);
+  console.log("Updated todos:");
 }, [todos]);
 
   // const saveit=(e)=>{
@@ -55,7 +55,18 @@ function App () {
     const newTodo = { id: uuidv4(), todo, isCompleted: false };
     setTodos((prevTodos) => [...prevTodos, newTodo]); // this ensures you're working with the latest state
     setTodo(""); 
-    console.log('todos', todos)
+    toast('📃 Task Added', {
+position: "top-right",
+autoClose: 5000,
+hideProgressBar: false,
+closeOnClick: false,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+theme: "light",
+transition: Bounce,
+});
+    
     // saveit()
   }
   const handleEdit=(id,text)=>{
@@ -116,13 +127,15 @@ function App () {
     let newTodos=[...todos]
     newTodos[index].isComplete=!newTodos[index].isComplete
     setTodos(newTodos)
-    console.log('newTodos', newTodos)
+    
+  
     // saveit() 
   }
 
   return (
     <>
     <Navbar/>
+    <ToastContainer/>
     <div className="md:container mx-auto p-5 my-4 rounded-2xl bg-violet-300 min-h-[80vh] md:w-1/2 bg-" >
         <div className="addTodo">
           <h2 className="text-lg font-bold !text-blue-950 mb-3">Add Todo</h2>
